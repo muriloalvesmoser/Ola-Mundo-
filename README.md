@@ -1,3 +1,3 @@
 # Olá, Mundo!
- Primeiro repositório do curso Git e GitHub.
-Repositório  criado, para aprendizado, durante o curso em vídeo
+ Primeiro repositório do curso Git e GitHub.R
+Repositório  criado  durante o curso em vídeo, do Professor  Gustavo Guanabara.
