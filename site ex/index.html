@@ -2,13 +2,65 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>projeto curso em vídeo</title>
-</head>
-<body>
-    <h1> Olá,  Mundo!</h1>
-    <hr>
-    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio hic animi officiis ratione eveniet exercitationem inventore dignissimos iste autem. Nam soluta cupiditate eum aspernatur voluptas sit sunt, laudantium voluptates? Officia?</p>
-
-</body>
-</html>
+    import React from "react";
+    import { Card, CardContent } from "@/components/ui/card";
+    import { Button } from "@/components/ui/button";
+    import { Leaf, AlertTriangle, Droplet, Thermometer } from "lucide-react";
+    
+    export default function App() {
+      return (
+        <div className="min-h-screen bg-gradient-to-br from-green-100 to-orange-100 p-6">
+          <div className="max-w-3xl mx-auto text-center py-12">
+            <h1 className="text-4xl font-bold text-orange-600 mb-4">CitrusDrone</h1>
+            <p className="text-lg text-green-800 mb-8">
+              Tecnologia sustentável para o cultivo inteligente de tangerinas
+            </p>
+            <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-xl shadow-lg">
+              Começar Monitoramento
+            </Button>
+          </div>
+    
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Card className="bg-white shadow-xl rounded-2xl">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <AlertTriangle className="text-red-500 mr-2" />
+                  <h2 className="text-xl font-semibold text-green-900">Alerta de Pragas</h2>
+                </div>
+                <p className="text-gray-700">Infestação localizada detectada no setor 3B. Recomendado aplicar pesticida seletivo.</p>
+              </CardContent>
+            </Card>
+    
+            <Card className="bg-white shadow-xl rounded-2xl">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <Droplet className="text-blue-500 mr-2" />
+                  <h2 className="text-xl font-semibold text-green-900">Umidade do Solo</h2>
+                </div>
+                <p className="text-gray-700">65% - Ideal para o desenvolvimento da cultura.</p>
+              </CardContent>
+            </Card>
+    
+            <Card className="bg-white shadow-xl rounded-2xl">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <Thermometer className="text-yellow-500 mr-2" />
+                  <h2 className="text-xl font-semibold text-green-900">Temperatura</h2>
+                </div>
+                <p className="text-gray-700">28°C - Dentro da faixa recomendada para tangerinas.</p>
+              </CardContent>
+            </Card>
+    
+            <Card className="bg-white shadow-xl rounded-2xl">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <Leaf className="text-green-600 mr-2" />
+                  <h2 className="text-xl font-semibold text-green-900">Sugestão Sustentável</h2>
+                </div>
+                <p className="text-gray-700">Considere implementar rotação de culturas e uso de cobertura vegetal para regenerar o solo.</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      );
+    }
