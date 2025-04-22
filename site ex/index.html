@@ -1,66 +1,200 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    import React from "react";
-    import { Card, CardContent } from "@/components/ui/card";
-    import { Button } from "@/components/ui/button";
-    import { Leaf, AlertTriangle, Droplet, Thermometer } from "lucide-react";
-    
-    export default function App() {
-      return (
-        <div className="min-h-screen bg-gradient-to-br from-green-100 to-orange-100 p-6">
-          <div className="max-w-3xl mx-auto text-center py-12">
-            <h1 className="text-4xl font-bold text-orange-600 mb-4">CitrusDrone</h1>
-            <p className="text-lg text-green-800 mb-8">
-              Tecnologia sustentável para o cultivo inteligente de tangerinas
-            </p>
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-2 rounded-xl shadow-lg">
-              Começar Monitoramento
-            </Button>
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Leaf, AlertTriangle, Droplet, Thermometer, History, Bell, User, Globe } from "lucide-react";
+
+export default function App() {
+  const [view, setView] = useState("dashboard");
+  const [profile, setProfile] = useState({ name: "João Silva", email: "joao@exemplo.com", area: "Zona Norte" });
+  const [alerts, setAlerts] = useState(["Alerta de pragas no setor 3B", "Temperatura muito alta na área 2C"]);
+  const [satelliteView, setSatelliteView] = useState(null);
+  
+  // Dados do Dashboard
+  const [dashboardData, setDashboardData] = useState({
+    temperature: 27, // Temperatura em °C
+    humidity: 65, // Umidade em %
+    soilMoisture: 45, // Umidade do solo em %
+    rainfall: 120, // Precipitação (em mm)
+  });
+
+  // Histórico de Intervenções
+  const [historico, setHistorico] = useState([
+    { date: "20/04/2025", intervention: "Aplicação de pesticida no setor 3B", description: "Pragas detectadas no setor 3B, foi realizada a aplicação de pesticida seletivo." },
+    { date: "18/04/2025", intervention: "Monitoramento de umidade do solo", description: "Umidade do solo medida em 65%, considerada ideal para o cultivo de tangerinas." },
+    { date: "16/04/2025", intervention: "Detecção de temperaturas altas", description: "Temperaturas acima de 30°C registradas no setor 2C, foi recomendada irrigação." },
+    { date: "10/04/2025", intervention: "Análise de crescimento das plantas", description: "Crescimento normal registrado em todas as áreas da plantação." },
+    { date: "05/04/2025", intervention: "Ação corretiva contra pragas", description: "Identificada infestação de pragas no setor 1A, foi realizada aplicação de bio-pesticida." }
+  ]);
+
+  // Adicionando a aba de Sustentabilidade
+  const renderSustentabilidade = () => (
+    <div className="max-w-3xl mx-auto text-green-800">
+      <h2 className="text-2xl font-semibold mb-4">Práticas de Sustentabilidade</h2>
+      <p className="text-lg">
+        Nosso compromisso com a sustentabilidade vai além do cultivo responsável de tangerinas. Implementamos diversas práticas e tecnologias para minimizar o impacto ambiental e promover a preservação dos recursos naturais.
+      </p>
+      
+      <h3 className="text-xl font-semibold mt-6">1. Uso de Tecnologias Ecológicas</h3>
+      <p>
+        Utilizamos drones para monitoramento e intervenções precisas, reduzindo o uso de pesticidas e fertilizantes químicos. A aplicação é feita de maneira localizada, garantindo menor impacto ambiental.
+      </p>
+
+      <h3 className="text-xl font-semibold mt-6">2. Agricultura de Precisão</h3>
+      <p>
+        Através da agricultura de precisão, conseguimos monitorar a umidade do solo, a temperatura e o crescimento das plantas em tempo real, o que ajuda a reduzir o desperdício de água e outros recursos naturais.
+      </p>
+
+      <h3 className="text-xl font-semibold mt-6">3. Energia Renovável</h3>
+      <p>
+        A fazenda utiliza energia solar para alimentar os drones e outros dispositivos de monitoramento, garantindo uma operação mais ecológica e com menor pegada de carbono.
+      </p>
+
+      <h3 className="text-xl font-semibold mt-6">4. Proteção da Biodiversidade</h3>
+      <p>
+        Em todas as áreas de plantação, adotamos práticas que preservam a fauna local e incentivamos o uso de soluções biológicas para controle de pragas, evitando o uso excessivo de produtos químicos.
+      </p>
+
+      <h3 className="text-xl font-semibold mt-6">5. Gestão de Resíduos</h3>
+      <p>
+        Praticamos a compostagem dos resíduos da plantação, gerando adubo orgânico que é reutilizado no solo, promovendo a saúde das plantas e o ciclo sustentável da natureza.
+      </p>
+
+      <Button onClick={() => alert('Mais informações sobre sustentabilidade podem ser consultadas no site.')} className="bg-green-600 hover:bg-green-700 text-white mt-6">
+        Saiba Mais
+      </Button>
+    </div>
+  );
+
+  const renderDashboard = () => (
+    <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Cards do Dashboard */}
+      <Card className="bg-green-200">
+        <CardContent>
+          <h3 className="text-xl font-semibold text-green-700">Temperatura</h3>
+          <p className="text-2xl">{dashboardData.temperature} °C</p>
+        </CardContent>
+      </Card>
+      <Card className="bg-blue-200">
+        <CardContent>
+          <h3 className="text-xl font-semibold text-blue-700">Umidade</h3>
+          <p className="text-2xl">{dashboardData.humidity} %</p>
+        </CardContent>
+      </Card>
+      <Card className="bg-yellow-200">
+        <CardContent>
+          <h3 className="text-xl font-semibold text-yellow-700">Umidade do Solo</h3>
+          <p className="text-2xl">{dashboardData.soilMoisture} %</p>
+        </CardContent>
+      </Card>
+      <Card className="bg-orange-200">
+        <CardContent>
+          <h3 className="text-xl font-semibold text-orange-700">Precipitação</h3>
+          <p className="text-2xl">{dashboardData.rainfall} mm</p>
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  const renderHistorico = () => (
+    <div className="max-w-3xl mx-auto text-green-800">
+      <h2 className="text-2xl font-semibold mb-4">Histórico de Intervenções</h2>
+      <div className="space-y-4">
+        {historico.map((entry, index) => (
+          <div key={index} className="bg-white p-4 rounded-lg shadow-md">
+            <div className="flex justify-between">
+              <p className="text-sm text-gray-500">{entry.date}</p>
+              <p className="text-sm text-gray-500">{entry.intervention}</p>
+            </div>
+            <p className="text-gray-700 mt-2">{entry.description}</p>
           </div>
-    
-          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="bg-white shadow-xl rounded-2xl">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <AlertTriangle className="text-red-500 mr-2" />
-                  <h2 className="text-xl font-semibold text-green-900">Alerta de Pragas</h2>
-                </div>
-                <p className="text-gray-700">Infestação localizada detectada no setor 3B. Recomendado aplicar pesticida seletivo.</p>
-              </CardContent>
-            </Card>
-    
-            <Card className="bg-white shadow-xl rounded-2xl">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Droplet className="text-blue-500 mr-2" />
-                  <h2 className="text-xl font-semibold text-green-900">Umidade do Solo</h2>
-                </div>
-                <p className="text-gray-700">65% - Ideal para o desenvolvimento da cultura.</p>
-              </CardContent>
-            </Card>
-    
-            <Card className="bg-white shadow-xl rounded-2xl">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Thermometer className="text-yellow-500 mr-2" />
-                  <h2 className="text-xl font-semibold text-green-900">Temperatura</h2>
-                </div>
-                <p className="text-gray-700">28°C - Dentro da faixa recomendada para tangerinas.</p>
-              </CardContent>
-            </Card>
-    
-            <Card className="bg-white shadow-xl rounded-2xl">
-              <CardContent className="p-6">
-                <div className="flex items-center mb-4">
-                  <Leaf className="text-green-600 mr-2" />
-                  <h2 className="text-xl font-semibold text-green-900">Sugestão Sustentável</h2>
-                </div>
-                <p className="text-gray-700">Considere implementar rotação de culturas e uso de cobertura vegetal para regenerar o solo.</p>
-              </CardContent>
-            </Card>
-          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  const renderMapa = () => (
+    <div className="max-w-3xl mx-auto text-green-800">
+      <h2 className="text-2xl font-semibold mb-4">Mapa da Plantação</h2>
+      {/* Mapa Simulado */}
+      <div className="bg-green-200 rounded-xl h-64 flex items-center justify-center text-green-900">
+        <div className="grid grid-cols-3 gap-4 w-full h-full p-4">
+          <div className="bg-orange-500 p-4 rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => setSatelliteView("sector1A")}>Setor 1A</div>
+          <div className="bg-yellow-500 p-4 rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => setSatelliteView("sector1B")}>Setor 1B</div>
+          <div className="bg-red-500 p-4 rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => setSatelliteView("sector1C")}>Setor 1C</div>
+
+          <div className="bg-green-500 p-4 rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => setSatelliteView("sector2A")}>Setor 2A</div>
+          <div className="bg-blue-500 p-4 rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => setSatelliteView("sector2B")}>Setor 2B</div>
+          <div className="bg-purple-500 p-4 rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => setSatelliteView("sector2C")}>Setor 2C</div>
+
+          <div className="bg-pink-500 p-4 rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => setSatelliteView("sector3A")}>Setor 3A</div>
+          <div className="bg-teal-500 p-4 rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => setSatelliteView("sector3B")}>Setor 3B</div>
+          <div className="bg-indigo-500 p-4 rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => setSatelliteView("sector3C")}>Setor 3C</div>
         </div>
-      );
-    }
+      </div>
+
+      {/* Visão de Satélite */}
+      {satelliteView && (
+        <div className="mt-8">
+          <h3 className="text-xl font-semibold mb-4">Visão de Satélite - {satelliteView}</h3>
+          <iframe 
+            width="100%" 
+            height="400" 
+            src={`https://www.google.com/maps/embed/v1/view?key=YOUR_GOOGLE_MAPS_API_KEY&center=-23.5505,-46.6333&zoom=16`} 
+            allowFullScreen 
+            title="Visão de Satélite"
+          ></iframe>
+        </div>
+      )}
+    </div>
+  );
+
+  const renderPerfil = () => (
+    <div className="max-w-3xl mx-auto text-green-800">
+      <h2 className="text-2xl font-semibold mb-4">Perfil do Usuário</h2>
+      <p><strong>Nome:</strong> {profile.name}</p>
+      <p><strong>Email:</strong> {profile.email}</p>
+      <p><strong>Área:</strong> {profile.area}</p>
+      <Button onClick={() => setProfile({ ...profile, name: "Novo Nome" })} className="bg-yellow-500 hover:bg-yellow-600 text-white">Editar Perfil</Button>
+    </div>
+  );
+
+  const renderAlertas = () => (
+    <div className="max-w-3xl mx-auto text-red-700">
+      <h2 className="text-2xl font-semibold mb-4">Alertas Ativos</h2>
+      <ul className="space-y-2">
+        {alerts.map((alert, index) => (
+          <li key={index} className="flex items-center">
+            <Bell className="mr-2 text-red-500" />{alert}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-green-100 to-orange-100 p-6">
+      <div className="max-w-3xl mx-auto text-center py-8 relative">
+        <h1 className="text-4xl font-bold text-orange-600 mb-2">CitrusDrone</h1>
+        <p className="text-lg text-green-800 mb-6">
+          Tecnologia sustentável para o cultivo inteligente de tangerinas
+        </p>
+
+        <div className="flex justify-center gap-4 mb-8 flex-wrap">
+          <Button onClick={() => setView("dashboard")} className="bg-orange-500 hover:bg-orange-600 text-white">Dashboard</Button>
+          <Button onClick={() => setView("historico")} className="bg-green-600 hover:bg-green-700 text-white">Histórico</Button>
+          <Button onClick={() => setView("mapa")} className="bg-yellow-500 hover:bg-yellow-600 text-white">Mapa</Button>
+          <Button onClick={() => setView("perfil")} className="bg-blue-500 hover:bg-blue-600 text-white">Perfil</Button>
+          <Button onClick={() => setView("alertas")} className="bg-red-500 hover:bg-red-600 text-white">Alertas</Button>
+          <Button onClick={() => setView("sustentabilidade")} className="bg-green-600 hover:bg-green-700 text-white">Sustentabilidade</Button>
+        </div>
+      </div>
+
+      {view === "dashboard" && renderDashboard()}
+      {view === "historico" && renderHistorico()}
+      {view === "mapa" && renderMapa()}
+      {view === "perfil" && renderPerfil()}
+      {view === "alertas" && renderAlertas()}
+      {view === "sustentabilidade" && renderSustentabilidade()}
+    </div>
+  );
+}
